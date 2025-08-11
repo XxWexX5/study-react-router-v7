@@ -6,7 +6,11 @@
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "check": "biome check --write .",
+    "organize": "biome check --write --apply-unsafe ."
   },
   "dependencies": {
     "@react-router/node": "^7.7.1",
@@ -17,6 +21,7 @@
     "react-router": "^7.7.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.1.4",
     "@react-router/dev": "^7.7.1",
     "@tailwindcss/vite": "^4.1.4",
     "@types/node": "^20",
