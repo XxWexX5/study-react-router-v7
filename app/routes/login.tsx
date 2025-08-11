@@ -1,4 +1,4 @@
-import { Form, redirect } from "react-router";
+import { Form, redirect, useFetcher } from "react-router";
 import type { Route } from "./+types/login";
 
 export async function action({ request }: Route.ActionArgs) {
@@ -12,18 +12,21 @@ export async function action({ request }: Route.ActionArgs) {
         }
     }
 
+    await new Promise(resolve => setTimeout(resolve, 5000));
+
     return redirect("/")
 }
 
 export default function Index({ actionData }: Route.ComponentProps) {
-    console.log(actionData);
+    const fetcher = useFetcher();
+    const isBusy = fetcher.state !== "idle";
 
     return (
         <main className="min-h-dvh flex items-center justify-center p-4">
             <div className="w-full max-w-sm border rounded-lg p-6 shadow-sm">
                 <h1 className="text-xl font-semibold mb-4">Acessar conta</h1>
 
-                <Form method="post" replace className="space-y-3">
+                <fetcher.Form method="post" className="space-y-3">
                     <div className="grid gap-1">
                         <label htmlFor="username" className="text-sm font-medium">
                             Usuário
@@ -53,12 +56,13 @@ export default function Index({ actionData }: Route.ComponentProps) {
                     </div>
 
                     <button
+                        disabled={isBusy}
                         type="submit"
-                        className="w-full bg-blue-600 text-white rounded py-2 hover:bg-blue-700 disabled:opacity-60"
+                        className="w-full bg-blue-600 text-white rounded py-2 hover:bg-blue-700 disabled:opacity-20 disabled:bg-gray-700"
                     >
                         "Entrar"
                     </button>
-                </Form>
+                </fetcher.Form>
             </div>
         </main>
     );
